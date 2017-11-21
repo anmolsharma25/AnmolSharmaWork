@@ -1,0 +1,22 @@
+
+<div class="container-fluid">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2  >{{ vm.selectedReportType.name }}</h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li class="pull-right"><a href="" ng-click=""><i title="Back" ng-click="vm.goBack()" class="fa fa-hand-o-left"></i></a></li>
+                <li class="pull-right"><a href="" ng-click="vm.refreshPageCollection()"><i class="fa fa-refresh"></i></a></li>
+                <li class="pull-right"><a href="" ng-click="vm.downloadResults()"><i class="fa fa-download"></i></a></li>
+                <li class="pull-right" style="margin-right: 15px;">
+					<select name="selectableReportTypes" class="form-control" ng-options="selectableReportType as selectableReportType.name for selectableReportType in vm.selectableReportTypes" ng-model="vm.selectedReportType" ng-change="vm.onReportTypeSelected()" required></select>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content" style="padding-top:0; margin-top:0;">
+            <div class="dashboard-widget-content" style="padding-top:0; margin-top:0;">
+                <div class="container-fluid" ui-view></div>
+            </div>
+        </div>
+    </div>
+</div>

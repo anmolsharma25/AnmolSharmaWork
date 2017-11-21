@@ -1,0 +1,167 @@
+<div class="row col-md-12">
+    <div class="table-responsive center-block" ng-style="::{'visibility': vm.gridVisibility}">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="border: none"></th>
+                    <th style="border: none"></th>
+                    <th style="border: none"></th>
+                    <th style="border: none"></th>
+                    <th style="border: none"></th>
+                    <th class="table-header" colspan="12" style="text-align: center" translate="RPT_MAIN_OPNLOAN_TBLTOPHEADING"></th>
+                    <th style="border: none"></th>
+                </tr>
+                <tr>
+                    <th class="table-header" style="min-width:100px; max-width:200px" translate="COMMON_LBL_REGION"></th>
+                    <th class="table-header" style="min-width:100px; max-width:200px" translate="COMMON_LBL_DISTRICT"></th>
+                    <th class="table-header" style="min-width:100px; max-width:200px" translate="COMMON_LBL_DEALER"></th>
+                    <th class="table-header" translate="COMMON_LBL_MODEL"></th>
+                    <th class="table-header" translate="COMMON_LBL_YEAR"></th>
+                    <th class="table-header" style="text-align: center">1</th>
+                    <th class="table-header" style="text-align: center">2</th>
+                    <th class="table-header" style="text-align: center">3</th>
+                    <th class="table-header" style="text-align: center">4</th>
+                    <th class="table-header" style="text-align: center">5</th>
+                    <th class="table-header" style="text-align: center">6</th>
+                    <th class="table-header" style="text-align: center">12</th>
+                    <th class="table-header" style="text-align: center">18</th>
+                    <th class="table-header" style="text-align: center">24</th>
+                    <th class="table-header" style="text-align: center">36</th>
+                    <th class="table-header" style="text-align: center">48</th>
+                    <th class="table-header" style="text-align: center">60</th>
+                    <th class="table-header" style="text-align: center" translate="RPT_MAIN_OPNLOAN_TBLCOLTOTALLEASES"></th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                <tr ng-repeat="openLoan in vm.openLoansCountReportResultDto track by $index">
+                    <td>
+						<div class="ellipsed" style="text-align:left; min-width:100px; max-width:200px" title="{{ openLoan.regionCode }}">
+                            <span ng-if="openLoan.regionName != 'Total' && openLoan.regionName != 'Terminated Dealers' && openLoan.regionName" ng-click="openLoan.isCollapsed = !openLoan.isCollapsed; vm.getOpenLoansCountByRegion(openLoan)" style="cursor:pointer;">
+                                <i ng-class="{'fa fa-plus-square': openLoan.isCollapsed, 'fa fa-minus-square': !openLoan.isCollapsed}" aria-hidden="true"></i>
+                            </span>
+                            <span style="font-weight: bold;" ng-if="openLoan.regionName"> {{ openLoan.regionName }} <span ng-if="openLoan.regionName != 'Total' && openLoan.regionName != 'Terminated Dealers'">-</span> {{ openLoan.regionCode }} </span>
+						</div>
+                    </td>
+                    <td>
+						<div class="ellipsed" style="text-align:left; min-width:100px; max-width:200px" title="{{ openLoan.districtCode }} - {{ openLoan.districtName }}">
+							<span ng-if="openLoan.districtID">
+								<span  ng-click="openLoan.isCollapsed = !openLoan.isCollapsed; vm.getOpenLoansCountByDistrict(openLoan)" style="cursor:pointer;">
+									<i ng-class="{'fa fa-plus-square': openLoan.isCollapsed, 'fa fa-minus-square': !openLoan.isCollapsed}" aria-hidden="true"></i>
+								</span>
+								{{ openLoan.districtCode }} - {{ openLoan.districtName }}
+							</span>
+						</div>
+                    </td>
+                    <td>
+						<div class="ellipsed" style="text-align:left; min-width:100px; max-width:200px" title="{{ openLoan.dealerName }}">
+							<span ng-if="openLoan.dealerID">
+								<span  ng-click="openLoan.isCollapsed = !openLoan.isCollapsed; vm.getOpenLoansCountByDealer(openLoan)" style="cursor:pointer;">
+									<i ng-class="{'fa fa-plus-square': openLoan.isCollapsed, 'fa fa-minus-square': !openLoan.isCollapsed}" aria-hidden="true"></i>
+								</span>
+								{{ openLoan.dealerName }}
+							</span>
+						</div>
+                    </td>
+                    <td>
+						<div class="ellipsed" style="text-align:left; min-width:100px; max-width:200px" title="{{ openLoan.model }}">
+							<span ng-if="openLoan.model">
+								<span  ng-click="openLoan.isCollapsed = !openLoan.isCollapsed; vm.getOpenLoansCountByModel(openLoan)" style="cursor:pointer;">
+									<i ng-class="{'fa fa-plus-square': openLoan.isCollapsed, 'fa fa-minus-square': !openLoan.isCollapsed}" aria-hidden="true"></i>                                            
+								</span>
+								{{ openLoan.model }}
+							</span>
+						</div>
+                    </td>
+                    <td>
+                        <span ng-if="openLoan.year">
+                            {{ openLoan.year }}
+                        </span>
+                    </td>
+                    <!--Loan Maturity in x Months starts from here-->
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month1': openLoan.month1, 'openLoan': openLoan})" 
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }"> 
+                        {{ openLoan.month1 }}
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month2': openLoan.month2, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month2 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month3': openLoan.month3, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month3 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month4': openLoan.month4, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month4 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month5': openLoan.month5, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month5 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month6': openLoan.month6, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month6 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month12': openLoan.month12, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month12 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month18': openLoan.month18, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month18 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month24': openLoan.month24, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month24 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month36': openLoan.month36, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }"> 
+                        {{ openLoan.month36 }} 
+                    </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month48': openLoan.month48, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month48 }} 
+                        </td>
+                    <td 
+                        style="text-align: center; cursor: pointer"
+                        ng-click="vm.getPortfoliosByMonth({'month60': openLoan.month60, 'openLoan': openLoan})"
+                        ng-style="openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? {'font-weight' : 'bold'} : { 'font-weight' : 'inherit' }">  
+                        {{ openLoan.month60 }} 
+                        </td>
+                    <!--Ends Here-->
+                    <td 
+                        style="cursor: pointer;"
+                        ng-click="vm.getPortfoliosByMonth({'totalLoans': openLoan.totalLoans, 'openLoan': openLoan})"
+                        ng-style='{"text-align" : (openLoan.year ? "left" : "center"), "font-weight": (openLoan.regionName ||openLoan.regionID || openLoan.districtID || openLoan.dealerID ? "bold" : "inherit") }'>
+                        {{ openLoan.totalLoans }} 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-style="::{'visibility': vm.noResultsVisibility}"><div style="font-weight:bold; text-align:center" translate="COMMON_NO_ITEMS_TO_VIEW"></div></div>
+    <div ng-style="::{'visibility': vm.noRegionAssigned}"><div style="font-weight:bold; text-align:center" translate="RPT_USRNOREGION"></div></div>
+</div>
+            
